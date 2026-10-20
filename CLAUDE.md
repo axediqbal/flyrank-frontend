@@ -39,3 +39,15 @@ in this repository. Read it before making changes.
 - Node.js 20+, `npm install`, `npm run dev` → http://localhost:3000
 - Vercel: GitHub integration connected; project import happens when first frontend code lands.
 - Push method from restricted networks: GitHub API (Contents API / Git Data API), never SSH.
+
+## Rules learned (FE-03 workflow drill)
+
+- Forms are controlled components backed by a single values object; never
+  uncontrolled inputs, and never a placeholder as a field's only label.
+- All validation lives in a pure `validate*` function with tests; components
+  render the errors it returns and never embed validation rules inline.
+- Every field has a visible label (`htmlFor`); errors are wired with
+  `aria-invalid` + `aria-describedby` and announced with `role="alert"`;
+  success is announced with `role="status"`. Colour is never the only signal.
+- A success message may only render after validation has passed on the actual
+  submitted values — no success state without checked values behind it.
