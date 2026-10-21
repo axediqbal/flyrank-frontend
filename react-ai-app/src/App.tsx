@@ -1,59 +1,31 @@
-// Pass 1 — AI-generated in one prompt ("build a small outreach tracker app in
-// React"). Functional, but everything lives in one component and several
-// review problems are visible. Pass 2 (see git history + DEVELOPMENT.md)
-// refactors and corrects them.
+// Pass 2 — manual review pass over the AI-generated single component.
+// Refactored into components + a storage lib; corrections documented in
+// DEVELOPMENT.md and in the git history (compare with the pass-1 commit).
 
-import { useEffect, useState } from 'react';
-
-type Lead = {
-  business: string;
-  contact: string;
-  channel: string;
-  status: string;
-  addedAt: string;
-  note: string;
-};
-
-const SEED: Lead[] = [
-  { business: 'Boss Cafe', contact: 'Instagram DM', channel: 'Instagram', status: 'contacted', addedAt: '2026-10-12', note: 'Running ads, bio link broken' },
-  { business: 'Activo Fitness', contact: 'WhatsApp', channel: 'WhatsApp', status: 'replied', addedAt: '2026-10-11', note: 'Auto-reply received, waiting on team' },
-  { business: 'Black Rock Cafe', contact: 'Instagram DM', channel: 'Instagram', status: 'new', addedAt: '2026-10-11', note: '' },
-];
+import { useEffect, useMemo, useState } from 'react';
+import LeadForm from './components/LeadForm';
+import LeadList from './components/LeadList';
+import StatsBar from './components/StatsBar';
+import { loadLeads, saveLeads } from './lib/storage';
+import { LEAD_STATUSES, type Lead, type LeadStatus } from './types';
 
 export default function App() {
-  const [leads, setLeads] = useState<Lead[]>(() => {
-    const raw = localStorage.getItem('leads');
-    return raw ? (JSON.parse(raw) as Lead[]) : SEED;
-  });
-  const [business, setBusiness] = useState('');
-  const [contact, setContact] = useState('');
-  const [channel, setChannel] = useState('Instagram');
+  const [leads, setLeads] = useState<Lead[]>(loadLeads);
   const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | LeadStatus>('all');
 
   useEffect(() => {
-    localStorage.setItem('leads', JSON.stringify(leads));
+    saveLeads(leads);
   }, [leads]);
 
-  function addLead(e: React.FormEvent) {
-    e.preventDefault();
-    setLeads([
-      { business, contact, channel, status: 'new', addedAt: new Date().toISOString(), note: '' },
-      ...leads,
-    ]);
-    setBusiness('');
-    setContact('');
-  }
-
-  function setStatus(i: number, status: string) {
-    setLeads(leads.map((l, j) => (j === i ? { ...l, status } : l)));
-  }
-
-  function removeLead(i: number) {
-    setLeads(leads.filter((_, j) => j !== i));
-  }
-
-  const visible = leads.filter((l) =>
-    l.business.toLowerCase().includes(search.toLowerCase()),
+  const visible = useMemo(
+    () =>
+      leads.filter(
+        (l) =>
+          (statusFilter === 'all' || l.status === statusFilter) &&
+          l.business.toLowerCase().includes(search.trim().toLowerCase()),
+      ),
+    [leads, search, statusFilter],
   );
 
   return (
@@ -63,43 +35,37 @@ export default function App() {
         <p>Freelance client outreach — every lead, one pipeline.</p>
       </header>
 
-      <form className="lead-form" onSubmit={addLead}>
-        <input placeholder="Business name" value={business} onChange={(e) => setBusiness(e.target.value)} />
-        <input placeholder="Contact (e.g. Instagram DM)" value={contact} onChange={(e) => setContact(e.target.value)} />
-        <select value={channel} onChange={(e) => setChannel(e.target.value)}>
-          <option>Instagram</option>
-          <option>WhatsApp</option>
-          <option>Email</option>
-          <option>Phone</option>
-        </select>
-        <button type="submit">Add lead</button>
-      </form>
+      <StatsBar leads={leads} />
+      <LeadForm onAdd={(lead) => setLeads((ls) => [lead, ...ls])} />
 
       <div className="toolbar">
-        <input placeholder="Search businesses" value={search} onChange={(e) => setSearch(e.target.value)} />
+        <input
+          placeholder="Search businesses"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          aria-label="Search businesses"
+        />
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value as 'all' | LeadStatus)}
+          aria-label="Filter by status"
+        >
+          <option value="all">All statuses</option>
+          {LEAD_STATUSES.map((s) => (
+            <option key={s} value={s}>
+              {s === 'call' ? 'Call booked' : s[0].toUpperCase() + s.slice(1)}
+            </option>
+          ))}
+        </select>
       </div>
 
-      <ul className="leads">
-        {visible.map((lead, i) => (
-          <li key={i}>
-            <div className="lead-main">
-              <b>{lead.business}</b>
-              <small>{lead.contact} · {lead.channel} · added {lead.addedAt}</small>
-              {lead.note && <small>{lead.note}</small>}
-            </div>
-            <div className="lead-actions">
-              <select value={lead.status} onChange={(e) => setStatus(i, e.target.value)}>
-                <option value="new">New</option>
-                <option value="contacted">Contacted</option>
-                <option value="replied">Replied</option>
-                <option value="call">Call booked</option>
-                <option value="closed">Closed</option>
-              </select>
-              <button onClick={() => removeLead(i)}>Delete</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <LeadList
+        leads={visible}
+        onStatus={(id, status) =>
+          setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status } : l)))
+        }
+        onRemove={(id) => setLeads((ls) => ls.filter((l) => l.id !== id))}
+      />
     </div>
   );
 }
