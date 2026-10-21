@@ -1,0 +1,85 @@
+/* Playground styling — the portfolio identity kit, kept quiet so the
+   components (and their focus states) are the loudest thing here. */
+:root {
+  --ink: #1e3a5f;
+  --coal: #12151a;
+  --paper: #fafaf7;
+  --accent: #d97706;
+  --line: #e3e1da;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--coal);
+  font-family: Inter, system-ui, sans-serif;
+}
+main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { color: var(--ink); font-size: 1.7rem; margin: 0 0 4px; }
+h2 { color: var(--ink); font-size: 1.15rem; margin: 40px 0 8px; }
+p.lede { color: #44423c; margin: 0 0 8px; }
+button {
+  font: inherit;
+  border: 1px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+button.primary { background: var(--ink); color: var(--paper); }
+button:hover { border-color: var(--accent); }
+/* Every interactive element gets a visible focus state — that is the point
+   of this playground. */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+input {
+  font: inherit;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-top: 4px;
+}
+label { font-size: 0.9rem; font-weight: 600; }
+
+/* Modal */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(18, 21, 26, 0.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.dialog {
+  background: #fff;
+  border-radius: 14px;
+  max-width: 420px; width: 100%;
+  padding: 24px;
+  box-shadow: 0 24px 60px rgba(18, 21, 26, 0.35);
+}
+.dialog h3 { margin: 0 0 6px; color: var(--ink); }
+.dialog .row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+
+/* Tabs */
+.tablist { display: flex; gap: 4px; border-bottom: 2px solid var(--line); }
+[role="tab"] {
+  border: none; border-radius: 8px 8px 0 0; background: transparent;
+  padding: 9px 14px; color: #44423c;
+}
+[role="tab"][aria-selected="true"] {
+  color: var(--ink); font-weight: 700;
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+.tabpanel { padding: 14px 4px; color: #33312c; line-height: 1.55; }
+
+/* Disclosure */
+.disclosure-body {
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 12px 14px; margin-top: 8px; background: #fff; line-height: 1.55;
+}
+kbd {
+  background: #fff; border: 1px solid var(--line); border-bottom-width: 2px;
+  border-radius: 5px; padding: 0 5px; font-size: 0.85em;
+}
