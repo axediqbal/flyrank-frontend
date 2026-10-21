@@ -73,3 +73,11 @@ ul.leads li {
   background: #fff; border: 1px dashed var(--line); border-radius: 10px;
   padding: 28px; text-align: center; color: #55534e;
 }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+form.lead-form label { display: block; font-size: 13px; margin-bottom: 4px; color: #55534e; }
+form.lead-form input, form.lead-form select { width: 100%; }
