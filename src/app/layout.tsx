@@ -33,12 +33,21 @@ export default function RootLayout({
       <body className="min-h-screen bg-paper font-body text-coal antialiased">
         <Nav />
         <main>{children}</main>
-        <footer className="border-t border-line">
-          <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-6 text-sm text-neutral-600 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-            <p>© 2026 Ahmed Iqbal — built with AI assistance, reviewed by hand.</p>
-            <p>
-              Design frames the work. The work is the loudest thing on the page.
+        <footer className="border-t-2 border-ink">
+          <div className="mx-auto grid max-w-6xl gap-6 px-4 py-10 sm:px-6 md:grid-cols-[auto_1fr_auto] md:items-end">
+            <p className="flex items-center gap-2.5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink font-display text-sm font-bold text-paper">
+                ai
+              </span>
+              <span className="font-display text-lg font-semibold tracking-tight text-ink">
+                Ahmed Iqbal
+              </span>
             </p>
+            <p className="max-w-md text-sm leading-relaxed text-neutral-600">
+              Design frames the work. The work is the loudest thing on the
+              page. Built with AI assistance, reviewed by hand.
+            </p>
+            <p className="text-sm text-neutral-500">© 2026 · Karachi, PK</p>
           </div>
         </footer>
       </body>
