@@ -43,7 +43,12 @@ export default async function CaseStudyPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <h1 className="font-display text-3xl font-bold text-ink">{c.title}</h1>
+      <p className="text-sm font-semibold uppercase tracking-widest text-accent">
+        Case study
+      </p>
+      <h1 className="mt-2 font-display text-4xl font-bold leading-tight tracking-tight text-ink sm:text-5xl">
+        {c.title}
+      </h1>
       <p className="mt-3">
         <a href={c.live} className="font-medium text-accent underline">
           Visit the live site
