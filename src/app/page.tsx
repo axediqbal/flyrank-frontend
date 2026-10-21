@@ -196,10 +196,6 @@ export default function HomePage() {
         <Reveal delay={100}>
           <div className="mt-8 grid items-start gap-8 sm:grid-cols-[auto_1fr]">
             <div className="relative aspect-square w-[min(240px,72vw)] shrink-0">
-              <div
-                className="absolute inset-0 translate-x-3 -translate-y-3 rounded-2xl border-2 border-accent"
-                aria-hidden
-              />
               <div className="absolute inset-0 overflow-hidden rounded-2xl">
                 <Image
                   src="/images/ahmed.jpg"
