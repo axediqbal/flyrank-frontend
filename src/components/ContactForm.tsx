@@ -48,8 +48,9 @@ export default function ContactForm() {
     setSent(Object.keys(next).length === 0);
   }
 
-  const field = 'w-full rounded-md border border-line px-3 py-2';
-  const label = 'mb-1 block text-sm font-medium text-coal';
+  const field =
+    'w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 outline-none transition-shadow placeholder:text-neutral-400 focus:border-accent focus:ring-2 focus:ring-accent/30';
+  const label = 'mb-1.5 block text-sm font-medium text-coal';
 
   return (
     <form onSubmit={handleSubmit} noValidate className="grid gap-4">
@@ -113,7 +114,7 @@ export default function ContactForm() {
       </div>
       <button
         type="submit"
-        className="rounded-md bg-ink px-5 py-2.5 font-medium text-paper hover:bg-accent"
+        className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition-all hover:-translate-y-0.5 hover:bg-accent"
       >
         Start your project
       </button>
