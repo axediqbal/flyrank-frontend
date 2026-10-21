@@ -18,11 +18,11 @@ export default function Nav() {
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink font-display text-sm font-bold text-paper transition-colors group-hover:bg-accent">
             ai
           </span>
-          <span className="font-display text-base font-semibold tracking-tight text-ink">
+          <span className="whitespace-nowrap font-display text-base font-semibold tracking-tight text-ink">
             Ahmed Iqbal
           </span>
         </Link>
-        <ul className="flex items-center gap-5 text-sm sm:gap-8">
+        <ul className="flex items-center gap-4 text-[13px] sm:gap-8 sm:text-sm">
           {links.map((l) => (
             <li key={l.href}>
               <Link href={l.href} className="u-sweep text-coal hover:text-ink">
