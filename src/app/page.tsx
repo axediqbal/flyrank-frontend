@@ -195,18 +195,20 @@ export default function HomePage() {
         </Reveal>
         <Reveal delay={100}>
           <div className="mt-8 grid items-start gap-8 sm:grid-cols-[auto_1fr]">
-            <div className="relative w-fit">
+            <div className="relative aspect-square w-[min(240px,72vw)] shrink-0">
               <div
-                className="absolute -right-3 -top-3 h-full w-full rounded-2xl border-2 border-accent"
+                className="absolute inset-0 translate-x-3 -translate-y-3 rounded-2xl border-2 border-accent"
                 aria-hidden
               />
-              <Image
-                src="/images/ahmed.jpg"
-                alt="Portrait of Ahmed Iqbal"
-                width={220}
-                height={220}
-                className="relative h-[220px] w-[220px] rounded-2xl object-cover"
-              />
+              <div className="absolute inset-0 overflow-hidden rounded-2xl">
+                <Image
+                  src="/images/ahmed.jpg"
+                  alt="Portrait of Ahmed Iqbal"
+                  fill
+                  sizes="240px"
+                  className="object-cover"
+                />
+              </div>
             </div>
             <div className="max-w-2xl">
               <p className="font-display text-xl font-semibold leading-snug text-ink sm:text-2xl">
