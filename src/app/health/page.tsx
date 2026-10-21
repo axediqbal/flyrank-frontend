@@ -30,7 +30,12 @@ export default async function HealthPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <h1 className="font-display text-3xl font-bold text-ink">Health</h1>
+      <p className="text-sm font-semibold uppercase tracking-widest text-accent">
+        System status
+      </p>
+      <h1 className="mt-2 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+        Health
+      </h1>
       <p className="mt-2 text-neutral-700">
         This page renders live data fetched at request time — not a static
         badge.
