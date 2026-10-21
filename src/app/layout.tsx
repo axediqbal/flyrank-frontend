@@ -50,6 +50,8 @@ export default function RootLayout({
             <p className="text-sm text-neutral-500">© 2026 · Karachi, PK</p>
           </div>
         </footer>
+        {/* Spacer: on phones the fixed bottom tab bar must never cover the footer */}
+        <div aria-hidden className="h-24 lg:hidden" />
       </body>
     </html>
   );
