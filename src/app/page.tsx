@@ -194,24 +194,39 @@ export default function HomePage() {
           />
         </Reveal>
         <Reveal delay={100}>
-          <div className="mt-8 max-w-2xl">
-            <p className="font-display text-xl font-semibold leading-snug text-ink sm:text-2xl">
-              A final-year Software Engineering student in Karachi who
-              builds with AI in the open — specs first, a human review on
-              everything that ships.
-            </p>
-            <p className="mt-4 leading-relaxed text-neutral-700">
-              My work has taken a Java game to 2nd place at a university
-              exhibition and production sites to live URLs for real
-              businesses. This portfolio is the FlyRank Front-end AI
-              Engineering capstone — it is itself one of the builds, and
-              its health page proves it is alive.
-            </p>
-            <p className="mt-5">
-              <Link href="/health" className="u-sweep font-medium text-ink">
-                Check the health page →
-              </Link>
-            </p>
+          <div className="mt-8 grid items-start gap-8 sm:grid-cols-[auto_1fr]">
+            <div className="relative w-fit">
+              <div
+                className="absolute -right-3 -top-3 h-full w-full rounded-2xl border-2 border-accent"
+                aria-hidden
+              />
+              <Image
+                src="/images/ahmed.jpg"
+                alt="Portrait of Ahmed Iqbal"
+                width={220}
+                height={220}
+                className="relative h-[220px] w-[220px] rounded-2xl object-cover"
+              />
+            </div>
+            <div className="max-w-2xl">
+              <p className="font-display text-xl font-semibold leading-snug text-ink sm:text-2xl">
+                A final-year Software Engineering student in Karachi who
+                builds with AI in the open — specs first, a human review on
+                everything that ships.
+              </p>
+              <p className="mt-4 leading-relaxed text-neutral-700">
+                My work has taken a Java game to 2nd place at a university
+                exhibition and production sites to live URLs for real
+                businesses. This portfolio is the FlyRank Front-end AI
+                Engineering capstone — it is itself one of the builds, and
+                its health page proves it is alive.
+              </p>
+              <p className="mt-5">
+                <Link href="/health" className="u-sweep font-medium text-ink">
+                  Check the health page →
+                </Link>
+              </p>
+            </div>
           </div>
         </Reveal>
       </section>
