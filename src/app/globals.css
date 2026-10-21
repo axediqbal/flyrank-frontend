@@ -18,3 +18,71 @@ body {
   color: var(--color-coal);
   font-family: var(--font-body);
 }
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* ---- Motion system (design upgrade, kit unchanged) ---- */
+
+/* Scroll reveal: sections rise in once, staggered by --reveal-delay. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Live-proof marquee strip. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Underline sweep for links and nav. */
+.u-sweep {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.35s ease;
+  padding-bottom: 2px;
+}
+.u-sweep:hover {
+  background-size: 100% 1px;
+}
+
+/* Case-card media zoom. */
+.card-media {
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.group:hover .card-media {
+  transform: scale(1.045);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  .card-media {
+    transition: none;
+  }
+}
