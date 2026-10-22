@@ -1,0 +1,8 @@
+# Reply Desk watchlist (Ahmed owns this list)
+- TestTrick (QA role application)
+- Purely Works (QA Automation Engineer application)
+- FlyRank (this internship)
+- SafeX (internship, Batch 2026)
+- Big Brains Learning (SQE internship — invoices/certificates)
+- DecodeLabs (internship — invoice pending)
+- Freelance client threads (website work enquiries)
