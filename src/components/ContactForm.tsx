@@ -1,31 +1,24 @@
 'use client';
 
-// Contact form — follows the CLAUDE.md rules from the FE-03 drill:
-// controlled inputs, validation in a pure function, labels on every field,
-// errors announced with role="alert", success with role="status".
+// Contact form — a real feature since Week 6: on submit, the message is
+// POSTed to /api/contact, which validates it again and stores it in
+// Ahmed's Supabase project (see the route handler for the data flow).
+// The form follows the CLAUDE.md rules from the FE-03 drill: controlled
+// inputs, validation in a pure function (src/lib/contact.ts), labels on
+// every field, errors announced with role="alert", success with
+// role="status". Sending/success/failure are distinct states; a failed
+// send keeps the visitor's text and offers the email fallback.
 
 import { useState } from 'react';
+import {
+  validateContact,
+  type ContactErrors,
+  type ContactValues,
+} from '@/lib/contact';
 
-interface ContactValues {
-  name: string;
-  email: string;
-  message: string;
-}
+export { validateContact } from '@/lib/contact';
 
-type ContactErrors = Partial<Record<keyof ContactValues, string>>;
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-export function validateContact(values: ContactValues): ContactErrors {
-  const errors: ContactErrors = {};
-  if (!values.name.trim()) errors.name = 'Your name is required.';
-  if (!values.email.trim()) errors.email = 'Your email is required.';
-  else if (!EMAIL_RE.test(values.email.trim()))
-    errors.email = 'Enter a valid email address.';
-  if (values.message.trim().length < 10)
-    errors.message = 'Tell me a little about the project (10+ characters).';
-  return errors;
-}
+type SendState = 'idle' | 'sending' | 'sent' | 'failed';
 
 export default function ContactForm() {
   const [values, setValues] = useState<ContactValues>({
@@ -33,23 +26,37 @@ export default function ContactForm() {
     email: '',
     message: '',
   });
+  const [company, setCompany] = useState(''); // honeypot — humans never fill this
   const [errors, setErrors] = useState<ContactErrors>({});
-  const [sent, setSent] = useState(false);
+  const [sendState, setSendState] = useState<SendState>('idle');
 
   function update<K extends keyof ContactValues>(key: K, value: ContactValues[K]) {
     setValues((v) => ({ ...v, [key]: value }));
-    setSent(false);
+    if (sendState === 'sent' || sendState === 'failed') setSendState('idle');
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const next = validateContact(values);
     setErrors(next);
-    setSent(Object.keys(next).length === 0);
+    if (Object.keys(next).length > 0) return;
+    setSendState('sending');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...values, company }),
+      });
+      if (!res.ok) throw new Error('send failed');
+      setSendState('sent');
+      setValues({ name: '', email: '', message: '' });
+    } catch {
+      setSendState('failed');
+    }
   }
 
   const field =
-    'w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 outline-none transition-shadow placeholder:text-neutral-400 focus:border-accent focus:ring-2 focus:ring-accent/30';
+    'w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-base outline-none transition-shadow placeholder:text-neutral-400 focus:border-accent focus:ring-2 focus:ring-accent/30';
   const label = 'mb-1.5 block text-sm font-medium text-coal';
 
   return (
@@ -112,16 +119,38 @@ export default function ContactForm() {
           </p>
         )}
       </div>
+      {/* Honeypot: hidden from humans, irresistible to bots. */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="c-company">Company (leave empty)</label>
+        <input
+          id="c-company"
+          tabIndex={-1}
+          autoComplete="off"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
+      </div>
       <button
         type="submit"
-        className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition-all hover:-translate-y-0.5 hover:bg-accent"
+        disabled={sendState === 'sending'}
+        className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition-all hover:-translate-y-0.5 hover:bg-accent disabled:translate-y-0 disabled:opacity-60"
       >
-        Start your project
+        {sendState === 'sending' ? 'Sending…' : 'Start your project'}
       </button>
-      {sent && (
+      {sendState === 'sent' && (
         <p role="status" className="text-sm text-green-700">
-          Thanks — your message is noted. (Skeleton build: delivery wiring lands
-          in a later week.)
+          Message sent — it is in my system now, and I reply to your email
+          from there. Thank you.
+        </p>
+      )}
+      {sendState === 'failed' && (
+        <p role="alert" className="text-sm text-red-700">
+          The message could not be sent — your text is still here, please
+          try again. If it keeps failing, email me directly at{' '}
+          <a className="underline" href="mailto:ahmediqbal2003f9@gmail.com">
+            ahmediqbal2003f9@gmail.com
+          </a>
+          .
         </p>
       )}
     </form>

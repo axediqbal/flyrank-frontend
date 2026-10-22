@@ -120,3 +120,26 @@ body {
     animation: none;
   }
 }
+
+/* FE-AA1: the error shake — movement is optional, feedback is not, so
+   the shake exists only where the user has NOT asked to reduce motion. */
+@keyframes smart-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .smart-shake {
+    animation: smart-shake 320ms ease-out;
+  }
+}
+
+/* Phone-audit fix (Week 6): the brand amber #D97706 on near-white is
+   3.9:1 — fine for fills and large type, short of AA for small text.
+   Small text roles (eyebrows, tab labels) use this deeper amber
+   (#B45309, 5.0:1); the locked brand amber stays everywhere else. */
+.eyebrow {
+  color: #b45309;
+}

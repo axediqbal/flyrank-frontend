@@ -104,7 +104,7 @@ const INPUT_LABELS: Record<string, string> = {
   contactPaths: 'Reachable by',
 };
 
-function ScoreCard({ output }: { output: LeadScore }) {
+export function ScoreCard({ output }: { output: LeadScore }) {
   const verdictStyle =
     output.verdict === 'Strong fit'
       ? 'bg-ink text-paper'

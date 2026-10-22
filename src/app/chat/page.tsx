@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function ChatPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <p className="text-sm font-semibold uppercase tracking-widest text-accent">
+      <p className="text-sm font-semibold uppercase tracking-widest eyebrow">
         Start a conversation
       </p>
       <h1 className="mt-2 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">

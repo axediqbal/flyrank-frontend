@@ -78,3 +78,18 @@ states (dropped stream, rate limit), each with a working retry.
   (modal, tabs, disclosure) with a shadcn comparison in its NOTES.md.
 - `workflow/` — the FL-04 outreach opener pipeline: project instructions
   and the five documented runs.
+
+## Testing (FE-09)
+
+- `npm run test` — Vitest + React Testing Library. Nine component
+  tests: the chat across pending / streaming / error-with-retry and
+  the score_lead tool lifecycle, the ScoreCard tool-result component,
+  and the validated contact form (empty-submit errors, a successful
+  send, a failed send that keeps the visitor's text). Queries are by
+  role and label throughout; the AI route is mocked with in-memory
+  NDJSON streams — the suite never calls the real API.
+- `npm run test:e2e` — one Playwright test walks the primary flow:
+  home -> chat -> the sample lead's ScoreCard -> a streamed reply.
+- CI (`.github/workflows/ci.yml`) runs both suites on every push and
+  must be green before merging; branch protection requires it on
+  `main`.

@@ -157,7 +157,7 @@ export default function HomePage() {
                   </span>
                 </div>
                 <div className="p-6">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-accent">
+                  <p className="text-xs font-semibold uppercase tracking-widest eyebrow">
                     {c.kind}
                   </p>
                   <h3 className="mt-2 font-display text-2xl font-bold tracking-tight text-ink">
@@ -264,7 +264,7 @@ export default function HomePage() {
               href="https://www.linkedin.com/in/ahmediqball"
               target="_blank"
               rel="noreferrer"
-              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+              className="py-1.5 font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
             >
               LinkedIn
             </a>
@@ -272,13 +272,13 @@ export default function HomePage() {
               href="https://github.com/axediqbal"
               target="_blank"
               rel="noreferrer"
-              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+              className="py-1.5 font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
             >
               GitHub
             </a>
             <Link
               href="/cv"
-              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+              className="py-1.5 font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
             >
               CV
             </Link>
@@ -286,7 +286,7 @@ export default function HomePage() {
               href="https://calendar.app.google/Cwb1oMgfazWdUfPy8"
               target="_blank"
               rel="noreferrer"
-              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+              className="py-1.5 font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
             >
               Book a call
             </a>
