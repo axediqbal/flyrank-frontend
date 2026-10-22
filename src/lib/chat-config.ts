@@ -47,3 +47,29 @@ export const DEMO_REPLIES = {
   fallback:
     'I am a small assistant whose one job is scoping projects for Ahmed — I cannot help with that one. If you would like to describe a project instead, tell me what you are building.',
 } as const;
+
+// FE-07 demo leads. The /chat empty state offers these so a visitor (or a
+// reviewer) can watch a complete tool call — and a failing one — without
+// inventing data. The sample is a real lead from Ahmed's outreach list;
+// the broken one fails the score_lead schema on purpose (no business
+// name) to prove the designed output-error tool state.
+export const SAMPLE_LEAD = {
+  business: 'Boss Cafe',
+  type: 'cafe',
+  rating: 4.4,
+  reviews: 210,
+  hasWebsite: false,
+  runningAds: true,
+  contactPaths: ['phone', 'instagram'],
+} as const;
+
+export const BROKEN_LEAD = {
+  business: '',
+  type: 'cafe',
+  hasWebsite: false,
+  runningAds: false,
+  contactPaths: [],
+} as const;
+
+export const TOOL_INTRO =
+  'Scoring that lead against the signals that make a website build worth pitching.';
