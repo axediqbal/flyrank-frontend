@@ -1,57 +1,80 @@
 # flyrank-frontend
 
-**FlyRank AI Internship — Front-end AI Engineering track (July 2026 cohort)**
+Ahmed Iqbal's FlyRank capstone: a portfolio that proves the through-line
+**"I ship production-grade front ends at AI speed."** Next.js 15 + React 19 +
+Tailwind v4, deployed on Vercel from this repo's `main` branch.
 
-One public repository for the entire track: all weekly assignments and the capstone portfolio project live here.
+Live: https://flyrank-frontend-five.vercel.app
 
-## Capstone vision
+## Routes
 
-A production-grade portfolio website that proves — not promises — my ability to design and ship
-front-end web experiences at AI-assisted speed. Audience: startup founders and hiring managers.
-The single action the site drives: contacting me about their next build.
+| Route | What it is |
+|---|---|
+| `/` | Home: claim, live-proof marquee, featured work, about, contact |
+| `/work/[slug]` | Case studies (Lumière, ApexMediaCo) |
+| `/health` | Fetches this repo's data from the GitHub API server-side (ISR, 1h) |
+| `/chat` | The streaming project-qualification chat (FE-06/07/08) |
+| `/api/chat` | The chat route handler (streaming, tools, failure drills) |
 
-## Tech stack (planned)
+## The chat
 
-- **Framework:** Next.js (App Router) + TypeScript
-- **Styling:** Tailwind CSS
-- **Deployment:** Vercel (connected, import deferred until first frontend code lands)
-- **AI toolchain:** Claude (projects), ChatGPT, Gemini
+One NDJSON event protocol serves both modes — live (Gemini, when
+`GEMINI_API_KEY` is set server-side) and demo (a scripted qualification
+flow, honestly badged in the UI). Prompt and model config live in
+`src/lib/chat-config.ts`; the route is `src/app/api/chat/route.ts`; the
+client is `src/components/Chat.tsx`.
 
-## Getting started
+### Tool contract — `score_lead` (FE-07)
 
-```bash
-# prerequisites: Node.js 20+
-npm install
-npm run dev
-```
+Defined in `src/lib/score-lead.ts` (that file is the deliverable).
 
-Open [http://localhost:3000](http://localhost:3000).
+- **Name:** `score_lead`
+- **Purpose:** score how strong a sales lead is for a website build, from
+  the few facts a visitor can state in one message.
+- **Input schema (Zod):**
 
-## Project structure (planned)
+  | Field | Type | Notes |
+  |---|---|---|
+  | `business` | string, min 1 | Required — a lead cannot be scored without a name |
+  | `type` | enum: cafe, restaurant, gym, clinic, salon, retail, other | Closest fit |
+  | `rating` | number 0–5, optional | Omitted when unknown — never estimated; renders as "not provided" |
+  | `reviews` | integer ≥ 0, optional | Same rule as rating |
+  | `hasWebsite` | boolean | A working website of their own |
+  | `runningAds` | boolean | Currently paying for social/search ads |
+  | `contactPaths` | array of phone/whatsapp/instagram/form, default [] | How customers reach them today |
 
-```
-.
-├── app/                # Next.js App Router pages
-├── components/         # Reusable UI components
-├── docs/               # Track assignments & decisions
-│   ├── week-01/        # FL-01, Draw the Path, proof statement
-│   └── ...
-└── public/             # Static assets
-```
+- **Return shape:** `{ score: 0–100, verdict: 'Strong fit' | 'Worth a
+  conversation' | 'Weak fit', breakdown: [{ label, points, max, note }],
+  recommendation: string }`. Deterministic — the same input always
+  scores the same.
+- **Invocation:** the route orchestrates the call — the client's intent
+  (the /chat tool-demo buttons) or a "score … lead" phrasing. The four
+  lifecycle states stream as typed parts (`input-streaming`,
+  `input-available`, `output-available`, `output-error`) and each renders
+  distinctly in the UI; the result renders as a score-card component, and
+  a schema failure renders as a designed error card — never a crash,
+  never a JSON dump.
+- **Errors:** input failing the schema returns the Zod issues as the
+  `output-error` part (e.g. `business: A business name is required to
+  score a lead.`).
 
-## Workflow
+## Failure & empty states (FE-08)
 
-- **One repo, whole track** — per FlyRank FE-track rule, everything lives in this single public repo.
-- **Conventional commits** — `feat:`, `fix:`, `docs:`, `chore:` etc. No vague messages.
-- **Honest AI-assisted work** — AI collaboration is allowed and credited; submissions note
-  "Prepared with AI assistance (Claude AI)."
+The full inventory — every failure/edge case of the primary flow, how it
+is triggered, and how it is handled — lives in [STATES.md](STATES.md),
+including the sabotage checklist and its results. The /chat empty state
+hosts live demos of the tool's success and error paths and of two failure
+states (dropped stream, rate limit), each with a working retry.
 
-## Progress
+## Environment
 
-| Week | Tasks | Status |
-| ---- | ----- | ------ |
-| 1 | FL-01 (AI Workflow Audit), Draw the Path (sitemap + toolkit), What Are You Proving? (proof statement), FE-01 (env + capstone repo) | In progress |
+- `GEMINI_API_KEY` — server-side only; unset = demo mode (badged in UI).
+- `NEXT_PUBLIC_SITE_URL` — canonical site URL for metadata.
 
-## License
+## Other apps in this repo
 
-MIT — see [LICENSE](LICENSE).
+- `react-ai-app/` — the Week 3 React + AI build (Outreach Tracker).
+- `playground/` — the Week 4 hand-built accessible components
+  (modal, tabs, disclosure) with a shadcn comparison in its NOTES.md.
+- `workflow/` — the FL-04 outreach opener pipeline: project instructions
+  and the five documented runs.
