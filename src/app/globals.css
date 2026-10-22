@@ -99,3 +99,24 @@ body {
     animation: none;
   }
 }
+
+/* FE-07/FE-08: tool parts and error cards enter calmly — a short rise +
+   fade, so a state change reads as a morph, not a swap or a flash. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-rise {
+  animation: rise 220ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none;
+  }
+}
