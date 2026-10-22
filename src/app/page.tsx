@@ -255,6 +255,43 @@ export default function HomePage() {
             </div>
           </Reveal>
         </div>
+        <Reveal delay={200}>
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line pt-6 text-sm">
+            <span className="font-semibold uppercase tracking-widest text-neutral-500">
+              Find me
+            </span>
+            <a
+              href="https://www.linkedin.com/in/ahmediqball"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/axediqbal"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+            >
+              GitHub
+            </a>
+            <Link
+              href="/cv"
+              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+            >
+              CV
+            </Link>
+            <a
+              href="https://calendar.app.google/Cwb1oMgfazWdUfPy8"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+            >
+              Book a call
+            </a>
+          </div>
+        </Reveal>
       </section>
     </div>
   );
