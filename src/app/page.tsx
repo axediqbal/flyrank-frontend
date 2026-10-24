@@ -21,7 +21,7 @@ const cases = [
     title: 'ApexMediaCo',
     kind: 'Brand & commerce storefront',
     summary:
-      'Next.js storefront with MongoDB Atlas: product catalogue, cart and an admin-seeded catalogue. Built as a SafeX internship deliverable.',
+      'Next.js storefront with MongoDB Atlas: product catalogue, cart and an admin-seeded catalogue. QA’d before launch.',
     image: '/images/apexmediaco.jpg',
     alt: 'The design team photograph leading the live ApexMediaCo storefront',
     live: 'https://apexmediaco.vercel.app',
@@ -64,8 +64,7 @@ export default function HomePage() {
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
       {/* Hero — the claim at display scale, live proof, one action (Week 1 spec). */}
       <section className="pb-10 pt-12 sm:pt-16">
-        <Reveal>
-          <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-neutral-600">
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-neutral-600">
             <span className="inline-flex items-center gap-2 font-medium text-coal">
               <span className="h-2 w-2 rounded-full bg-accent" />
               Available for new projects
@@ -73,19 +72,15 @@ export default function HomePage() {
             <span aria-hidden>·</span>
             <span>Karachi, Pakistan</span>
             <span aria-hidden>·</span>
-            <span>Front-end developer — FlyRank AI Engineering intern</span>
+            <span>Front-end developer</span>
           </p>
-        </Reveal>
 
-        <Reveal delay={80}>
-          <h1 className="mt-6 font-display text-[13.5vw] font-bold leading-[0.98] tracking-tight text-ink sm:text-7xl lg:text-[86px]">
+        <h1 className="mt-6 font-display text-[13.5vw] font-bold leading-[0.98] tracking-tight text-ink sm:text-7xl lg:text-[86px]">
             I ship production-grade front ends at{' '}
             <span className="text-accent">AI speed.</span>
           </h1>
-        </Reveal>
 
-        <Reveal delay={160}>
-          <div className="mt-8 grid items-end gap-8 sm:grid-cols-[1fr_auto]">
+        <div className="mt-8 grid items-end gap-8 sm:grid-cols-[1fr_auto]">
             <p className="max-w-xl text-lg leading-relaxed text-neutral-700">
               Proof, not promises: every project below is live. Open one, use
               it, then tell me about yours.
@@ -105,11 +100,9 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-        </Reveal>
 
         {/* Live-proof marquee */}
-        <Reveal delay={240}>
-          <div
+        <div
             className="mt-12 overflow-hidden border-y border-line py-3"
             aria-label="Live projects"
           >
@@ -128,7 +121,6 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-        </Reveal>
       </section>
 
       {/* 01 — Featured work */}
@@ -190,7 +182,7 @@ export default function HomePage() {
           <SectionHead
             index="02"
             title="About"
-            note="A block, not a page — the Week 1 sitemap decision."
+            note="The short version — the full story is a call away."
           />
         </Reveal>
         <Reveal delay={100}>
@@ -215,14 +207,8 @@ export default function HomePage() {
               <p className="mt-4 leading-relaxed text-neutral-700">
                 My work has taken a Java game to 2nd place at a university
                 exhibition and production sites to live URLs for real
-                businesses. This portfolio is the FlyRank Front-end AI
-                Engineering capstone — it is itself one of the builds, and
-                its health page proves it is alive.
-              </p>
-              <p className="mt-5">
-                <Link href="/health" className="u-sweep font-medium text-ink">
-                  Check the health page →
-                </Link>
+                businesses. This portfolio is itself one of the builds —
+                every project here is a live URL, not a mockup.
               </p>
             </div>
           </div>

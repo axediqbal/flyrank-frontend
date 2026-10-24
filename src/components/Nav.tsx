@@ -59,15 +59,6 @@ const items: NavItem[] = [
     ),
   },
   {
-    href: '/health',
-    label: 'Health',
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-[22px] w-[22px]" {...stroke} aria-hidden>
-        <path d="M3 12h4l2.5-6 4 12L16 12h5" />
-      </svg>
-    ),
-  },
-  {
     href: '/#contact',
     label: 'Contact',
     icon: (

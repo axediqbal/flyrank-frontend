@@ -8,7 +8,14 @@ import { notFound } from 'next/navigation';
 
 const CASES: Record<
   string,
-  { title: string; live: string; problem: string; built: string }
+  {
+    title: string;
+    live: string;
+    problem: string;
+    built: string;
+    outcome: string;
+    role: string;
+  }
 > = {
   lumiere: {
     title: 'Lumière — restaurant site with working reservations',
@@ -17,6 +24,9 @@ const CASES: Record<
       'A fine-dining restaurant with no web presence beyond a social page: no menu online, and reservations meant phone calls during opening hours only.',
     built:
       'A Next.js site with the menu, gallery and a reservation flow stored in MongoDB — plus the unglamorous parts: form validation, confirmation states and an admin view of bookings.',
+    outcome:
+      'No client revenue data: this is a portfolio build, so the honest outcome is the working product itself — menu, gallery, and reservations stored in MongoDB, live and usable today.',
+    role: 'Designed and built end to end by Ahmed Iqbal — front end, reservations data wiring, QA — AI-assisted, with a human review on everything that ships.',
   },
   apexmediaco: {
     title: 'ApexMediaCo — brand & commerce storefront',
@@ -24,7 +34,10 @@ const CASES: Record<
     problem:
       'A brand-commerce concept that needed a real storefront — catalogue, cart and managed products — not a static brochure.',
     built:
-      'A Next.js storefront on MongoDB Atlas with a seeded product catalogue, cart flow and QA pass (functional + SEO checks) before it shipped as a SafeX internship deliverable.',
+      'A Next.js storefront on MongoDB Atlas with a seeded product catalogue, cart flow and QA pass (functional + SEO checks) before it shipped live.',
+    outcome:
+      'No client revenue data: this was an internship build, so the outcome is the working storefront itself — seeded catalogue, cart flow, and a functional + SEO QA pass before launch.',
+    role: 'Designed and built end to end by Ahmed Iqbal — storefront, catalogue, cart, QA — in September 2026.',
   },
 };
 
@@ -67,21 +80,14 @@ export default async function CaseStudyPage({
       <p className="mt-2 text-neutral-700">{c.built}</p>
 
       <h2 className="mt-8 font-display text-xl font-semibold text-ink">
-        Metrics
+        Outcome
       </h2>
-      <p className="mt-2 text-neutral-700">
-        Performance and outcome metrics are being measured and will be added
-        here — the Week 3 gather list tracks them honestly rather than
-        inventing numbers.
-      </p>
+      <p className="mt-2 text-neutral-700">{c.outcome}</p>
 
       <h2 className="mt-8 font-display text-xl font-semibold text-ink">
         Role &amp; timeline
       </h2>
-      <p className="mt-2 text-neutral-700">
-        Designed and built end to end by Ahmed Iqbal (front end, data wiring,
-        QA), AI-assisted under the workflow documented in this repository.
-      </p>
+      <p className="mt-2 text-neutral-700">{c.role}</p>
 
       <p className="mt-10 border-t border-line pt-6">
         <Link href="/#contact" className="font-medium eyebrow underline">

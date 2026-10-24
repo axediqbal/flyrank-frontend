@@ -24,6 +24,7 @@ import {
   useState,
   type FormEvent,
 } from 'react';
+import { useSearchParams } from 'next/navigation';
 import type { LeadScore } from '@/lib/score-lead';
 import { BROKEN_LEAD, SAMPLE_LEAD } from '@/lib/chat-config';
 
@@ -268,6 +269,11 @@ const ERROR_TITLES: Record<TurnError['kind'], string> = {
 };
 
 export default function Chat() {
+  const searchParams = useSearchParams();
+  // Crit fix (Oct 2026): the tool-demo + failure-drill controls are
+  // internship evidence, not a sales tool — the public page hides them.
+  // Reviewers reach them at /chat?demo=1; everyone else sees a clean chat.
+  const showDemos = searchParams.get('demo') === '1';
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [streaming, setStreaming] = useState(false);
@@ -527,6 +533,9 @@ export default function Chat() {
                   </button>
                 ))}
               </div>
+              {/* Demo controls live behind ?demo=1 (see showDemos above). */}
+              {showDemos && (
+                <>
               <div className="border-t border-line pt-3">
                 <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
                   Tool demo — score_lead
@@ -589,6 +598,8 @@ export default function Chat() {
                   </button>
                 </div>
               </div>
+                </>
+              )}
             </div>
           ) : (
             messages.map((m, i) => (

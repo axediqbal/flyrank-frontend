@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import Chat from '@/components/Chat';
 
 // /chat — the FE-06 streaming interface: the capstone's central AI
@@ -28,11 +29,24 @@ export default function ChatPage() {
         where Ahmed picks it up.
       </p>
       <div className="mt-8">
-        <Chat />
+        <Suspense fallback={null}>
+          <Chat />
+        </Suspense>
       </div>
       <p className="mt-4 text-sm text-neutral-500">
-        Replies stream token by token; you can stop one mid-stream and the
-        partial reply stays. The conversation is kept in this browser only.
+        This is a demo of the assistant — messages stay in this browser. To
+        start a real project, use the{' '}
+        <a href="/#contact" className="font-medium text-ink underline">
+          contact form
+        </a>{' '}
+        or{' '}
+        <a
+          href="https://calendar.app.google/Cwb1oMgfazWdUfPy8"
+          className="font-medium text-ink underline"
+        >
+          book a discovery call
+        </a>
+        .
       </p>
     </div>
   );

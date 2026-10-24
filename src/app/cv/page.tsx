@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import DownloadPdfButton from '@/components/DownloadPdfButton';
 
 // /cv — the CV link the personal site points to (PF-04). A real CV page,
 // kept in the same repo and design kit as the rest of the site, printable
@@ -86,6 +87,9 @@ export default function CvPage() {
         production-grade front ends at AI speed — from art direction to
         deployed, optimized code.
       </p>
+      <div className="mt-5">
+        <DownloadPdfButton />
+      </div>
       <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm font-medium">
         <a className="text-ink underline-offset-4 hover:text-accent hover:underline" href="mailto:ahmediqbal2003f9@gmail.com">
           ahmediqbal2003f9@gmail.com
@@ -146,8 +150,9 @@ export default function CvPage() {
       </p>
 
       <p className="mt-10 border-t border-line pt-4 text-sm text-neutral-500">
-        This page lives at flyrank-frontend-five.vercel.app/cv — print it
-        (Ctrl/Cmd + P) for a PDF copy. For project work, the{' '}
+        This page lives at ahmediqbal.vercel.app/cv — the button above
+        downloads it as a PDF (via the browser print dialog). For project
+        work, the{' '}
         <Link href="/chat" className="font-medium text-ink underline-offset-4 hover:underline">
           project chat
         </Link>{' '}
