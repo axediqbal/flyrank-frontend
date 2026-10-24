@@ -47,7 +47,7 @@ function SectionHead({
   return (
     <div className="flex items-end justify-between gap-4 border-t-2 border-ink pt-5">
       <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-        <span className="mr-3 align-top font-body text-sm font-semibold text-accent">
+        <span className="mr-3 align-top font-body text-sm font-semibold eyebrow">
           {index}
         </span>
         {title}
@@ -121,7 +121,7 @@ export default function HomePage() {
                   className="flex items-center gap-8 font-display text-sm font-semibold uppercase tracking-widest text-ink"
                 >
                   {p.label}
-                  <span className="text-accent" aria-hidden>
+                  <span className="eyebrow" aria-hidden>
                     ●
                   </span>
                 </a>
