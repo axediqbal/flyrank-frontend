@@ -93,3 +93,40 @@ states (dropped stream, rate limit), each with a working retry.
 - CI (`.github/workflows/ci.yml`) runs both suites on every push and
   must be green before merging; branch protection requires it on
   `main`.
+
+## FE-AA2 — 3D experience (`/3d`)
+
+Live: https://flyrank-frontend-five.vercel.app/3d
+
+**What was built:** a procedural "studio product shot" rendered live in
+the browser — a torus-knot sculpture with two amber accent spheres on
+a shadow-catching floor, lit by a small lighting rig. No external
+models, no external HDRs: the geometry and every light are defined in
+code (`src/components/StudioScene.tsx`). The interaction beyond
+orbiting is a custom configurator (`src/components/ThreeExperience.tsx`):
+material colour swatches (Ink, Amber, Porcelain, Coal), metalness and
+roughness sliders, a wireframe toggle, an auto-rotate toggle, and three
+lighting presets (Studio / Daylight / Dusk). Orbit + pinch zoom come
+from three's OrbitControls wrapped in a small R3F component — no drei,
+no leva, by design. The page is deliberately unlinked from the nav: it
+is an assignment deliverable, not part of the portfolio's
+client-facing flow.
+
+**Perf note (FE-10 lens):** `/3d` First Load JS is **106 kB** — the
+route itself adds only 2.83 kB over the 103 kB shared baseline, because
+the canvas loads via `next/dynamic` with `ssr:false`: three.js +
+React Three Fiber ship in separate async chunks fetched only when
+`/3d` opens (about 740 kB uncompressed on disk, about 189 kB gzipped
+combined). What kept it sane: zero model/HDR downloads, one
+shadow-casting light at 1024 px, small procedural geometry (torus knot
+plus two spheres), device pixel ratio capped at `[1, 2]`, and a
+fixed-height canvas container so the page never shifts while the scene
+loads. Reduced-motion fallback: with `prefers-reduced-motion` the
+canvas runs `frameloop="demand"` — a single static frame — while the
+configurator still updates the material and lighting (config changes
+invalidate explicitly). Frame rate was not lab-measured for this
+deliverable; the geometry and light budget above is what bounds it.
+
+**What I'd add with more time:** a drag-and-drop GLB viewer on top of
+this staged scene (the brief's example direction), so visitors can
+inspect their own models with the same configurator.
