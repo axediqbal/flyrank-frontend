@@ -273,7 +273,6 @@ export default function Chat() {
   const [streaming, setStreaming] = useState(false);
   const [waiting, setWaiting] = useState(false);
   const [mode, setMode] = useState<'live' | 'demo' | null>(null);
-  const [ready, setReady] = useState(false);
   const [nearBottom, setNearBottom] = useState(true);
   const abortRef = useRef<AbortController | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -284,8 +283,7 @@ export default function Chat() {
     fetch('/api/chat')
       .then((r) => r.json())
       .then((d: { mode?: string }) => setMode(d.mode === 'live' ? 'live' : 'demo'))
-      .catch(() => setMode('demo'))
-      .finally(() => setReady(true));
+      .catch(() => setMode('demo'));
   }, []);
 
   useEffect(() => {
@@ -506,13 +504,12 @@ export default function Chat() {
           className="h-[380px] space-y-3 overflow-y-auto px-4 py-4"
           aria-live="polite"
         >
-          {!ready ? (
-            <div className="space-y-3" aria-hidden="true">
-              <div className="h-16 w-3/4 animate-pulse rounded-2xl rounded-bl-md bg-neutral-100" />
-              <div className="ml-auto h-10 w-1/2 animate-pulse rounded-2xl rounded-br-md bg-neutral-100" />
-              <div className="h-24 w-2/3 animate-pulse rounded-2xl rounded-bl-md bg-neutral-100" />
-            </div>
-          ) : messages.length === 0 ? (
+          {/* No loading skeleton here on purpose: the skeleton→content
+              swap was the measured CLS source (0.124) on /chat — the
+              skeleton's blocks and the empty state's blocks are different
+              heights, so the tool-demo block moved after load. First
+              paint now shows the real empty state, so nothing moves. */}
+          {messages.length === 0 ? (
             <div className="space-y-4">
               <p className="text-sm leading-relaxed text-neutral-600">
                 Ask about a project you want built — what it is, what it
