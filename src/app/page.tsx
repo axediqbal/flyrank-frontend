@@ -240,10 +240,10 @@ export default function HomePage() {
         </Reveal>
         <div className="mt-8 grid gap-10 lg:grid-cols-2">
           <Reveal delay={60}>
-            <p className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
+            <h3 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
               Tell me what you are{' '}
               <span className="text-accent">building.</span>
-            </p>
+            </h3>
             <p className="mt-4 max-w-md leading-relaxed text-neutral-700">
               A storefront, a dashboard, a landing page that has to convert —
               if it needs a front end, it starts here.
