@@ -50,7 +50,7 @@ export default async function CaseStudyPage({
         {c.title}
       </h1>
       <p className="mt-3">
-        <a href={c.live} className="font-medium text-accent underline">
+        <a href={c.live} className="font-medium eyebrow underline">
           Visit the live site
         </a>{' '}
         — it is the proof; this page is the story.
@@ -84,7 +84,7 @@ export default async function CaseStudyPage({
       </p>
 
       <p className="mt-10 border-t border-line pt-6">
-        <Link href="/#contact" className="font-medium text-accent underline">
+        <Link href="/#contact" className="font-medium eyebrow underline">
           Want one like this? Start your project →
         </Link>
       </p>
