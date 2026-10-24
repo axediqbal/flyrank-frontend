@@ -12,10 +12,30 @@ import { CONTACT_LIMITS, validateContact } from '@/lib/contact';
 // courtesy, never the gate); writes use the project's ANON key with an
 // insert-only row-level-security policy — the key can add a row and can
 // never read, change or delete one. A honeypot field silently drops bot
-// submissions while returning the same success shape.
+// submissions while returning the same success shape. Week 7 break
+// hardening (Ali's review): identical submissions inside 60s return the
+// original success without a second row (see the dedup cache below).
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+// Week 7 break hardening (Ali's review): short-window server-side
+// idempotency. The form button already disables while sending, but a
+// direct API double-POST used to insert twice. An identical submission
+// (same email + message) inside 60s now returns the original success
+// shape with a duplicate flag and inserts nothing. LIMIT, stated openly:
+// this cache lives in the serverless instance's memory, so a retry routed
+// to a different instance is not caught. A cross-instance guard would
+// need a DB read, which the insert-only anon key cannot perform — that
+// trade-off is documented here and in the break log, not hidden. The key
+// is recorded only after a successful insert, so a failed insert (502 /
+// 503) never poisons a legitimate retry.
+const DEDUP_WINDOW_MS = 60_000;
+const recentSubmissions = new Map<string, number>();
+
+function dedupKey(values: { email: string; message: string }): string {
+  return `${values.email.trim().toLowerCase()}\n${values.message.trim()}`;
+}
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -57,6 +77,15 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Contact backend not configured' }, { status: 503 });
   }
 
+  const key = dedupKey(values);
+  const now = Date.now();
+  for (const [k, t] of recentSubmissions) {
+    if (now - t > DEDUP_WINDOW_MS) recentSubmissions.delete(k);
+  }
+  if (recentSubmissions.has(key)) {
+    return Response.json({ ok: true, duplicate: true }, { status: 201 });
+  }
+
   const res = await fetch(`${url}/rest/v1/contact_messages`, {
     method: 'POST',
     headers: {
@@ -70,5 +99,6 @@ export async function POST(request: Request) {
   if (!res.ok) {
     return Response.json({ error: 'Could not save the message' }, { status: 502 });
   }
+  recentSubmissions.set(key, Date.now());
   return Response.json({ ok: true }, { status: 201 });
 }
