@@ -11,6 +11,21 @@ export const metadata: Metadata = {
   title: 'Project chat — Ahmed Iqbal',
   description:
     'Scope a project in a streaming conversation with the portfolio assistant.',
+  alternates: { canonical: 'https://ahmediqbal.vercel.app/chat' },
+  openGraph: {
+    title: 'Project chat — Ahmed Iqbal',
+    description:
+      'Scope a project in a streaming conversation with the portfolio assistant.',
+    url: 'https://ahmediqbal.vercel.app/chat',
+    images: [{ url: '/images/ahmed.jpg', alt: 'Portrait of Ahmed Iqbal' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Project chat — Ahmed Iqbal',
+    description:
+      'Scope a project in a streaming conversation with the portfolio assistant.',
+    images: ['/images/ahmed.jpg'],
+  },
 };
 
 export default function ChatPage() {

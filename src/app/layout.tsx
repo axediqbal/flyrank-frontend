@@ -14,13 +14,30 @@ const body = Inter({
   variable: '--font-body-loaded',
 });
 
+// Canonical home for both Vercel deploys: search and social previews
+// point at the personal domain, not whichever deploy served the page
+// (Week 7 break fix F6). The og image is Ahmed's real portrait.
+const SITE_DESCRIPTION =
+  'I ship production-grade front ends at AI speed. Portfolio of Ahmed Iqbal, front-end developer in Karachi.';
+
 export const metadata: Metadata = {
   title: 'Ahmed Iqbal — Front-End Developer',
-  description:
-    'I ship production-grade front ends at AI speed. Portfolio of Ahmed Iqbal, front-end developer and FlyRank AI intern.',
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
-  ),
+  description: SITE_DESCRIPTION,
+  metadataBase: new URL('https://ahmediqbal.vercel.app'),
+  openGraph: {
+    title: 'Ahmed Iqbal — Front-End Developer',
+    description: SITE_DESCRIPTION,
+    siteName: 'Ahmed Iqbal',
+    images: [{ url: '/images/ahmed.jpg', alt: 'Portrait of Ahmed Iqbal' }],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ahmed Iqbal — Front-End Developer',
+    description: SITE_DESCRIPTION,
+    images: ['/images/ahmed.jpg'],
+  },
 };
 
 export default function RootLayout({

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -43,6 +44,43 @@ const CASES: Record<
 
 export function generateStaticParams() {
   return Object.keys(CASES).map((slug) => ({ slug }));
+}
+
+// Week 7 break fix F2: case pages used to inherit the home title and
+// description (the [slug] template exported no metadata). Each case now
+// gets its own title, description, canonical URL and share image.
+const OG_IMAGES: Record<string, string> = {
+  lumiere: '/images/lumiere.jpg',
+  apexmediaco: '/images/apexmediaco.jpg',
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const c = CASES[slug];
+  if (!c) return {};
+  const url = `https://ahmediqbal.vercel.app/work/${slug}`;
+  const title = `${c.title} — Ahmed Iqbal`;
+  return {
+    title,
+    description: c.problem,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description: c.problem,
+      url,
+      images: [{ url: OG_IMAGES[slug], alt: c.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: c.problem,
+      images: [OG_IMAGES[slug]],
+    },
+  };
 }
 
 export default async function CaseStudyPage({

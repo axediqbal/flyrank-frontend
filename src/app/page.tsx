@@ -1,7 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
 import Reveal from '@/components/Reveal';
+
+// Week 7 break fix F6: the home page's canonical is the personal domain,
+// and its share URL is set here (the layout deliberately sets no og:url,
+// so pages without their own metadata never inherit a wrong URL).
+export const metadata: Metadata = {
+  alternates: { canonical: 'https://ahmediqbal.vercel.app/' },
+  openGraph: { url: 'https://ahmediqbal.vercel.app/' },
+};
 
 const cases = [
   {

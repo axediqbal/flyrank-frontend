@@ -32,12 +32,21 @@ export async function POST(request: Request) {
   }
 
   const values = {
-    name: typeof record.name === 'string' ? record.name.slice(0, CONTACT_LIMITS.name) : '',
-    email: typeof record.email === 'string' ? record.email.slice(0, CONTACT_LIMITS.email) : '',
-    message:
-      typeof record.message === 'string' ? record.message.slice(0, CONTACT_LIMITS.message) : '',
+    name: typeof record.name === 'string' ? record.name : '',
+    email: typeof record.email === 'string' ? record.email : '',
+    message: typeof record.message === 'string' ? record.message : '',
   };
+  // Week 7 break fix F3: caps are a REJECTION, not a silent trim. The
+  // old code sliced first and validated after, so an over-long message
+  // came back 201 with the tail quietly cut off. Now the sender gets a
+  // clear 422 and can shorten the message themselves.
   const errors = validateContact(values);
+  if (values.name.length > CONTACT_LIMITS.name)
+    errors.name = 'Keep your name to 100 characters or fewer.';
+  if (values.email.length > CONTACT_LIMITS.email)
+    errors.email = 'Keep your email address to 200 characters or fewer.';
+  if (values.message.length > CONTACT_LIMITS.message)
+    errors.message = 'Keep your message to 2000 characters or fewer.';
   if (Object.keys(errors).length > 0) {
     return Response.json({ error: 'Validation failed', errors }, { status: 422 });
   }

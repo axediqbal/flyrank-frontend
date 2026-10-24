@@ -11,6 +11,21 @@ export const metadata: Metadata = {
   title: 'CV — Ahmed Iqbal',
   description:
     'Ahmed Iqbal — front-end developer and full-stack intern. Experience, projects, skills, education.',
+  alternates: { canonical: 'https://ahmediqbal.vercel.app/cv' },
+  openGraph: {
+    title: 'CV — Ahmed Iqbal',
+    description:
+      'Ahmed Iqbal — front-end developer and full-stack intern. Experience, projects, skills, education.',
+    url: 'https://ahmediqbal.vercel.app/cv',
+    images: [{ url: '/images/ahmed.jpg', alt: 'Portrait of Ahmed Iqbal' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CV — Ahmed Iqbal',
+    description:
+      'Ahmed Iqbal — front-end developer and full-stack intern. Experience, projects, skills, education.',
+    images: ['/images/ahmed.jpg'],
+  },
 };
 
 const EXPERIENCE = [
