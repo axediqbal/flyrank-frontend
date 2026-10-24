@@ -273,7 +273,7 @@ export default function Chat() {
   // Crit fix (Oct 2026): the tool-demo + failure-drill controls are
   // internship evidence, not a sales tool — the public page hides them.
   // Reviewers reach them at /chat?demo=1; everyone else sees a clean chat.
-  const showDemos = searchParams.get('demo') === '1';
+  const showDemos = searchParams?.get('demo') === '1';
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [streaming, setStreaming] = useState(false);

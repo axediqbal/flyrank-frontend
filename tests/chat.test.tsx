@@ -6,6 +6,13 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Chat from '@/components/Chat';
+
+// Crit fix (Oct 2026): the demo controls live behind ?demo=1 in
+// production. The suite exercises demo mode, so the navigation mock
+// reports demo=1 for every test here.
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => new URLSearchParams('demo=1'),
+}));
 import { executeScoreLead } from '@/lib/score-lead';
 import { SAMPLE_LEAD } from '@/lib/chat-config';
 
