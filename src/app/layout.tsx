@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Inter } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import Nav from '@/components/Nav';
 import './globals.css';
 
@@ -69,6 +70,8 @@ export default function RootLayout({
         </footer>
         {/* Spacer: on phones the fixed bottom tab bar must never cover the footer */}
         <div aria-hidden className="h-24 lg:hidden" />
+        {/* Plant Your Flag: Vercel Web Analytics */}
+        <Analytics />
       </body>
     </html>
   );
