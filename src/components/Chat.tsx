@@ -693,13 +693,13 @@ export default function Chat() {
           }}
           rows={2}
           placeholder="Describe your project…"
-          className="max-h-28 flex-1 resize-none rounded-xl border border-line bg-paper px-3.5 py-2.5 text-base outline-none placeholder:text-neutral-400 focus:border-accent focus:ring-2 focus:ring-accent/30"
+          className="max-h-28 min-w-0 flex-1 resize-none rounded-xl border border-line bg-paper px-3.5 py-2.5 text-base outline-none placeholder:text-neutral-400 focus:border-accent focus:ring-2 focus:ring-accent/30"
         />
         {streaming ? (
           <button
             type="button"
             onClick={stop}
-            className="rounded-full bg-accent px-5 py-2.5 font-medium text-white transition-colors hover:bg-coal"
+            className="shrink-0 rounded-full bg-accent px-5 py-2.5 font-medium text-white transition-colors hover:bg-coal"
           >
             Stop
           </button>
@@ -707,7 +707,7 @@ export default function Chat() {
           <button
             type="submit"
             disabled={!input.trim()}
-            className="rounded-full bg-ink px-5 py-2.5 font-medium text-paper transition-colors hover:bg-accent disabled:opacity-40"
+            className="shrink-0 rounded-full bg-ink px-5 py-2.5 font-medium text-paper transition-colors hover:bg-accent disabled:opacity-40"
           >
             Send
           </button>

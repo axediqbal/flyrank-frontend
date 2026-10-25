@@ -4,7 +4,7 @@
 //  - Wide screens: a floating glass pill at the top with inline links.
 //  - Narrow screens (phones): a slim glass brand bar at the top and an
 //    iOS-style glass TAB BAR fixed at the bottom — Home, Work, Chat,
-//    Health, Contact with icons and labels, the current page lit in ink
+//    Contact with icons and labels, the current page lit in ink
 //    with an amber dot. Thumb-reachable, 44px+ targets, safe-area aware.
 // The layout adds bottom padding on mobile so the tab bar never covers
 // page content.
@@ -140,7 +140,7 @@ export default function Nav() {
         aria-label="Mobile"
         className="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 lg:hidden"
       >
-        <ul className="grid grid-cols-5 rounded-full border border-white/60 bg-paper/75 px-1.5 py-1.5 shadow-[0_16px_40px_-12px_rgba(18,21,26,0.45)] backdrop-blur-xl">
+        <ul className="grid grid-cols-4 rounded-full border border-white/60 bg-paper/75 px-1.5 py-1.5 shadow-[0_16px_40px_-12px_rgba(18,21,26,0.45)] backdrop-blur-xl">
           {items.map((item) => {
             const active = isActive(pathname, item.href);
             return (
