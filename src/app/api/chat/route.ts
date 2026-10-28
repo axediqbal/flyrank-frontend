@@ -6,6 +6,7 @@ import {
   TOOL_INTRO,
 } from '@/lib/chat-config';
 import { executeScoreLead, leadInputSchema } from '@/lib/score-lead';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 // Streaming chat route handler (FE-06, extended for FE-07 + FE-08).
 //
@@ -31,6 +32,9 @@ import { executeScoreLead, leadInputSchema } from '@/lib/score-lead';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+// FE-11: a streamed reply is word-paced with small sleeps; 30s bounds
+// a runaway stream without cutting any real reply short.
+export const maxDuration = 30;
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -276,6 +280,17 @@ function eventStream(events: AsyncIterable<ChatEvent>, signal: AbortSignal) {
 }
 
 export async function POST(request: Request) {
+  // FE-11: bound attempts before any other work — the same
+  // per-instance limit shape as /api/contact (see rate-limit.ts).
+  // The FE-08 'rate-limit' sabotage drill is separate: that one is a
+  // simulated 429 the client rehearses on demand, this one is real.
+  const limited = checkRateLimit(request, {
+    limit: 30,
+    windowMs: 60_000,
+    route: 'chat',
+  });
+  if (limited) return limited;
+
   let body: unknown;
   try {
     body = await request.json();
@@ -286,6 +301,20 @@ export async function POST(request: Request) {
   const raw = record?.messages;
   if (!Array.isArray(raw) || !raw.every(isChatMessage) || raw.length === 0) {
     return Response.json({ error: 'messages required' }, { status: 400 });
+  }
+  // FE-11 input caps: a qualification chat never needs more than this,
+  // and an unbounded array or message is a trivial abuse vector.
+  if (raw.length > 50) {
+    return Response.json(
+      { error: 'Too many messages — send at most 50 at a time.' },
+      { status: 400 },
+    );
+  }
+  if (raw.some((m) => m.content.length > 4000)) {
+    return Response.json(
+      { error: 'Keep each message to 4000 characters or fewer.' },
+      { status: 400 },
+    );
   }
   // FE-08 drill: a rate-limit is a status, not a stream.
   if (record?.sabotage === 'rate-limit') {

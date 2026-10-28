@@ -8,6 +8,13 @@ test('primary flow: home -> chat -> tool result -> streamed reply', async ({ pag
   await page.getByRole('link', { name: 'Chat' }).first().click();
   await expect(page.getByRole('heading', { name: /scope your project/i })).toBeVisible();
 
+  // Crit fix (Oct 2026) gated the tool-demo + failure-drill controls
+  // behind /chat?demo=1 — on plain /chat the sample-lead button does
+  // not render, which is what turned CI red. The demo steps below
+  // therefore run in demo mode; the home -> chat navigation above
+  // already covered the public path.
+  await page.goto('/chat?demo=1');
+
   // The tool demo runs the score_lead lifecycle to a real component.
   await page.getByRole('button', { name: /score a sample lead/i }).click();
   await expect(page.getByText('Strong fit')).toBeVisible({ timeout: 20_000 });

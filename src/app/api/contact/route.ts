@@ -1,4 +1,5 @@
 import { CONTACT_LIMITS, validateContact } from '@/lib/contact';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 // Contact form backend (Week 6 — "Make It Do Something").
 //
@@ -15,9 +16,15 @@ import { CONTACT_LIMITS, validateContact } from '@/lib/contact';
 // submissions while returning the same success shape. Week 7 break
 // hardening (Ali's review): identical submissions inside 60s return the
 // original success without a second row (see the dedup cache below).
+// FE-11 production hygiene: a per-IP rate limit (5 POSTs per 10 minutes)
+// sits in front of everything, and the handler declares maxDuration 10 —
+// a contact insert is a single quick write, so anything slower is
+// already wrong. The rate limit shares the dedup guard's limit: it is
+// per serverless instance, not global (see src/lib/rate-limit.ts).
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const maxDuration = 10;
 
 // Week 7 break hardening (Ali's review): short-window server-side
 // idempotency. The form button already disables while sending, but a
@@ -38,6 +45,15 @@ function dedupKey(values: { email: string; message: string }): string {
 }
 
 export async function POST(request: Request) {
+  // FE-11: bound attempts before any other work — successes and
+  // failures alike count toward the bucket.
+  const limited = checkRateLimit(request, {
+    limit: 5,
+    windowMs: 10 * 60_000,
+    route: 'contact',
+  });
+  if (limited) return limited;
+
   let body: unknown;
   try {
     body = await request.json();
