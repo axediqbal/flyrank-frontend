@@ -182,14 +182,17 @@ controls live behind `/chat?demo=1`; the public page shows a clean chat.
 
 ## Testing (FE-09, extended FE-11)
 
-- `npm run test` — Vitest + React Testing Library, 15 tests: the chat
+- `npm run test` — Vitest + React Testing Library, 22 tests: the chat
   across pending / streaming / error-with-retry and the score_lead tool
   lifecycle, the ScoreCard tool-result component, the validated contact
   form (empty-submit errors, a successful send, a failed send that keeps
-  the visitor's text), the contact route's idempotency + rate limit, and
-  the chat route's input caps + rate limit. Queries are by role and
-  label throughout; the AI route is mocked with in-memory NDJSON streams
-  in the component tests — the suite never calls the real API.
+  the visitor's text), the contact route's idempotency + rate limit, the
+  chat route's input caps + rate limit, and the SmartButton, Reveal,
+  Nav, ButtonsDemo and DownloadPdfButton components. Queries are by role
+  and label throughout; the AI route is mocked with in-memory NDJSON streams
+  in the component tests — the suite never calls the real API. Coverage:
+  `npx vitest run --coverage --coverage.include='src/**/*.{ts,tsx}'`
+  (components above 50% on every metric; see SHIP-IT.md for the numbers).
 - `npm run test:e2e` — one Playwright test walks the primary flow:
   home -> chat -> the sample lead's ScoreCard -> a streamed reply. It
   runs in demo mode (`/chat?demo=1`), because the demo controls live
