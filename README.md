@@ -164,7 +164,9 @@ controls live behind `/chat?demo=1`; the public page shows a clean chat.
   instance, not global. They stop trivial abuse (one script hammering
   one instance); they are not a distributed firewall. A cross-instance
   limiter would need shared state (e.g. Upstash/Redis) — deliberately
-  not added on a free tier.
+  not added on a free tier. If a paid LLM key is ever set, add a shared
+  limiter before opening live mode — per-instance limits will not bound
+  LLM spend.
 - **Double-submit guard:** identical contact submissions (same email +
   message) inside 60s return the original success with a duplicate flag
   and insert nothing — but only when routed to the same instance (see
