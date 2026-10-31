@@ -26,6 +26,7 @@ Hosting: Vercel (hobby) + Supabase (free). Deploys track `main`.
 - [x] Contact form: invalid input → 422; valid input → 201 + row in Supabase
 - [x] Chat streams NDJSON (`/api/chat` returns `text` events)
 - [x] Analytics script serves 200 (`/_vercel/insights/script.js`)
+- [x] Footer badge serves and links to the credential verification page
 - [x] Rate limits + input caps live (chat caps answer 400; limiter proven
       on a single instance + unit tests — see the per-instance note)
 - [ ] Safari + mobile Safari manual check (owner: Ahmed, on his iPhone —
