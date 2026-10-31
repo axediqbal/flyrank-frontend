@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Space_Grotesk, Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import Nav from '@/components/Nav';
+import FlyRankBadge from '@/components/FlyRankBadge';
 import './globals.css';
 
 const display = Space_Grotesk({
@@ -66,6 +67,9 @@ export default function RootLayout({
               page. Built with AI assistance, reviewed by hand.
             </p>
             <p className="text-sm text-neutral-500">© 2026 · Karachi, PK</p>
+          </div>
+          <div className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+            <FlyRankBadge />
           </div>
         </footer>
         {/* Spacer: on phones the fixed bottom tab bar must never cover the footer */}
