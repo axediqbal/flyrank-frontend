@@ -20,7 +20,7 @@ one, use it, then judge the work by the working product, not the pitch.
 | Route | What it is |
 |---|---|
 | `/` | Home: claim, live-proof marquee, featured work, about, contact |
-| `/work/[slug]` | Case studies (Lumière, ApexMediaCo) |
+| `/work/[slug]` | Case studies (Lumière, ApexMediaCo, Signature Hero) |
 | `/chat` | The streaming project-qualification chat (FE-06/07/08) |
 | `/cv` | CV page (with a print-to-PDF download button) |
 | `/buttons` | SmartButton demo page (FE-AA1) |

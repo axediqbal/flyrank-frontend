@@ -40,6 +40,17 @@ const CASES: Record<
       'No client revenue data: this was an internship build, so the outcome is the working storefront itself — seeded catalogue, cart flow, and a functional + SEO QA pass before launch.',
     role: 'Designed and built end to end by Ahmed Iqbal — storefront, catalogue, cart, QA — in September 2026.',
   },
+  'signature-hero': {
+    title: 'Signature Hero — fullscreen GLSL shader behind the home headline',
+    live: 'https://ahmediqbal.vercel.app',
+    problem:
+      'This portfolio’s hero was static text: it proved nothing about front-end craft at the shader level, while the brief asked for a signature visual — without hurting readability or performance.',
+    built:
+      'A fullscreen GLSL shader behind the home headline — raw WebGL, no new dependency — with u_time / u_resolution / u_mouse uniforms, a light palette guard so the ink headline stays readable, a static-frame fallback for reduced motion, a capped pixel ratio and a pause when the tab is hidden.',
+    outcome:
+      'The hero is live on the home page with the headline fully readable and the animation calm: no new dependency shipped for it, and the shader component is the only addition to the home bundle. Lighthouse numbers get recorded after the live deploy.',
+    role: 'Designed and built end to end by Ahmed Iqbal — shader, hero integration, QA — in November 2026.',
+  },
 };
 
 export function generateStaticParams() {
@@ -52,6 +63,7 @@ export function generateStaticParams() {
 const OG_IMAGES: Record<string, string> = {
   lumiere: '/images/lumiere.jpg',
   apexmediaco: '/images/apexmediaco.jpg',
+  'signature-hero': '/images/signature-hero.jpg',
 };
 
 export async function generateMetadata({

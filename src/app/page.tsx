@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
 import Reveal from '@/components/Reveal';
+import ShaderHero from '@/components/ShaderHero';
 
 // Week 7 break fix F6: the home page's canonical is the personal domain,
 // and its share URL is set here (the layout deliberately sets no og:url,
@@ -34,6 +35,17 @@ const cases = [
     image: '/images/apexmediaco.jpg',
     alt: 'The design team photograph leading the live ApexMediaCo storefront',
     live: 'https://apexmediaco.vercel.app',
+  },
+  {
+    slug: 'signature-hero',
+    index: '03',
+    title: 'Signature Hero',
+    kind: 'GLSL shader hero',
+    summary:
+      'A fullscreen GLSL shader behind this portfolio’s own headline — raw WebGL, no new dependency — with a light palette guard so the ink headline stays readable, a static frame for reduced motion, and a capped pixel ratio.',
+    image: '/images/signature-hero.jpg',
+    alt: 'The light shader hero behind the portfolio headline',
+    live: 'https://ahmediqbal.vercel.app',
   },
 ];
 
@@ -73,6 +85,11 @@ export default function HomePage() {
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
       {/* Hero — the claim at display scale, live proof, one action (Week 1 spec). */}
       <section className="pb-10 pt-12 sm:pt-16">
+        <div className="relative">
+          <div className="absolute inset-0" aria-hidden="true">
+            <ShaderHero />
+          </div>
+          <div className="relative">
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-neutral-600">
             <span className="inline-flex items-center gap-2 font-medium text-coal">
               <span className="h-2 w-2 rounded-full bg-accent" />
@@ -109,6 +126,9 @@ export default function HomePage() {
               </a>
             </div>
           </div>
+
+          </div>
+        </div>
 
         {/* Live-proof marquee */}
         <div
